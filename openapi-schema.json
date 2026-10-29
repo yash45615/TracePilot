@@ -1,0 +1,1639 @@
+{
+    "openapi":  "3.1.0",
+    "info":  {
+                 "title":  "TracePilot",
+                 "description":  "Evidence-driven investigation of software releases.",
+                 "version":  "0.1.0"
+             },
+    "paths":  {
+                  "/api/v1/health":  {
+                                         "get":  {
+                                                     "tags":  [
+                                                                  "Health"
+                                                              ],
+                                                     "summary":  "Health Check",
+                                                     "operationId":  "health_check_api_v1_health_get",
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Successful Response",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "additionalProperties":  {
+                                                                                                                                                                        "type":  "string"
+                                                                                                                                                                    },
+                                                                                                                                           "type":  "object",
+                                                                                                                                           "title":  "Response Health Check Api V1 Health Get"
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               }
+                                                                   }
+                                                 }
+                                     },
+                  "/api/v1/releases":  {
+                                           "get":  {
+                                                       "tags":  [
+                                                                    "Releases"
+                                                                ],
+                                                       "summary":  "List Releases",
+                                                       "operationId":  "list_releases_api_v1_releases_get",
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "Successful Response",
+                                                                                     "content":  {
+                                                                                                     "application/json":  {
+                                                                                                                              "schema":  {
+                                                                                                                                             "items":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/ReleaseRead"
+                                                                                                                                                       },
+                                                                                                                                             "type":  "array",
+                                                                                                                                             "title":  "Response List Releases Api V1 Releases Get"
+                                                                                                                                         }
+                                                                                                                          }
+                                                                                                 }
+                                                                                 }
+                                                                     }
+                                                   },
+                                           "post":  {
+                                                        "tags":  [
+                                                                     "Releases"
+                                                                 ],
+                                                        "summary":  "Create Release",
+                                                        "operationId":  "create_release_api_v1_releases_post",
+                                                        "requestBody":  {
+                                                                            "content":  {
+                                                                                            "application/json":  {
+                                                                                                                     "schema":  {
+                                                                                                                                    "$ref":  "#/components/schemas/ReleaseCreate"
+                                                                                                                                }
+                                                                                                                 }
+                                                                                        },
+                                                                            "required":  true
+                                                                        },
+                                                        "responses":  {
+                                                                          "201":  {
+                                                                                      "description":  "Successful Response",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/ReleaseRead"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  },
+                                                                          "422":  {
+                                                                                      "description":  "Validation Error",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  }
+                                                                      }
+                                                    }
+                                       },
+                  "/api/v1/events":  {
+                                         "post":  {
+                                                      "tags":  [
+                                                                   "Events"
+                                                               ],
+                                                      "summary":  "Create Event",
+                                                      "operationId":  "create_event_api_v1_events_post",
+                                                      "requestBody":  {
+                                                                          "required":  true,
+                                                                          "content":  {
+                                                                                          "application/json":  {
+                                                                                                                   "schema":  {
+                                                                                                                                  "$ref":  "#/components/schemas/EventCreate"
+                                                                                                                              }
+                                                                                                               }
+                                                                                      }
+                                                                      },
+                                                      "responses":  {
+                                                                        "201":  {
+                                                                                    "description":  "Successful Response",
+                                                                                    "content":  {
+                                                                                                    "application/json":  {
+                                                                                                                             "schema":  {
+                                                                                                                                            "$ref":  "#/components/schemas/EventRead"
+                                                                                                                                        }
+                                                                                                                         }
+                                                                                                }
+                                                                                },
+                                                                        "422":  {
+                                                                                    "description":  "Validation Error",
+                                                                                    "content":  {
+                                                                                                    "application/json":  {
+                                                                                                                             "schema":  {
+                                                                                                                                            "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                        }
+                                                                                                                         }
+                                                                                                }
+                                                                                }
+                                                                    }
+                                                  },
+                                         "get":  {
+                                                     "tags":  [
+                                                                  "Events"
+                                                              ],
+                                                     "summary":  "List Events",
+                                                     "operationId":  "list_events_api_v1_events_get",
+                                                     "parameters":  [
+                                                                        {
+                                                                            "name":  "release_id",
+                                                                            "in":  "query",
+                                                                            "required":  false,
+                                                                            "schema":  {
+                                                                                           "anyOf":  [
+                                                                                                         {
+                                                                                                             "type":  "integer",
+                                                                                                             "exclusiveMinimum":  0
+                                                                                                         },
+                                                                                                         {
+                                                                                                             "type":  "null"
+                                                                                                         }
+                                                                                                     ],
+                                                                                           "title":  "Release Id"
+                                                                                       }
+                                                                        },
+                                                                        {
+                                                                            "name":  "limit",
+                                                                            "in":  "query",
+                                                                            "required":  false,
+                                                                            "schema":  {
+                                                                                           "type":  "integer",
+                                                                                           "maximum":  500,
+                                                                                           "minimum":  1,
+                                                                                           "default":  100,
+                                                                                           "title":  "Limit"
+                                                                                       }
+                                                                        }
+                                                                    ],
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Successful Response",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "type":  "array",
+                                                                                                                                           "items":  {
+                                                                                                                                                         "$ref":  "#/components/schemas/EventRead"
+                                                                                                                                                     },
+                                                                                                                                           "title":  "Response List Events Api V1 Events Get"
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               },
+                                                                       "422":  {
+                                                                                   "description":  "Validation Error",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               }
+                                                                   }
+                                                 }
+                                     },
+                  "/api/v1/metrics/release":  {
+                                                  "get":  {
+                                                              "tags":  [
+                                                                           "metrics"
+                                                                       ],
+                                                              "summary":  "Get Release Metrics",
+                                                              "description":  "Calculate product and reliability metrics for a single release.",
+                                                              "operationId":  "get_release_metrics_api_v1_metrics_release_get",
+                                                              "parameters":  [
+                                                                                 {
+                                                                                     "name":  "release_id",
+                                                                                     "in":  "query",
+                                                                                     "required":  true,
+                                                                                     "schema":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "exclusiveMinimum":  0,
+                                                                                                    "title":  "Release Id"
+                                                                                                }
+                                                                                 }
+                                                                             ],
+                                                              "responses":  {
+                                                                                "200":  {
+                                                                                            "description":  "Successful Response",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/ReleaseMetrics"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        },
+                                                                                "422":  {
+                                                                                            "description":  "Validation Error",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        }
+                                                                            }
+                                                          }
+                                              },
+                  "/api/v1/metrics/compare":  {
+                                                  "get":  {
+                                                              "tags":  [
+                                                                           "metrics"
+                                                                       ],
+                                                              "summary":  "Get Release Comparison",
+                                                              "description":  "Compare two releases and persist the regression evidence.",
+                                                              "operationId":  "get_release_comparison_api_v1_metrics_compare_get",
+                                                              "parameters":  [
+                                                                                 {
+                                                                                     "name":  "baseline_id",
+                                                                                     "in":  "query",
+                                                                                     "required":  true,
+                                                                                     "schema":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "exclusiveMinimum":  0,
+                                                                                                    "title":  "Baseline Id"
+                                                                                                }
+                                                                                 },
+                                                                                 {
+                                                                                     "name":  "candidate_id",
+                                                                                     "in":  "query",
+                                                                                     "required":  true,
+                                                                                     "schema":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "exclusiveMinimum":  0,
+                                                                                                    "title":  "Candidate Id"
+                                                                                                }
+                                                                                 }
+                                                                             ],
+                                                              "responses":  {
+                                                                                "200":  {
+                                                                                            "description":  "Successful Response",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/MetricChange"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        },
+                                                                                "422":  {
+                                                                                            "description":  "Validation Error",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        }
+                                                                            }
+                                                          }
+                                              },
+                  "/api/v1/evidence":  {
+                                           "post":  {
+                                                        "tags":  [
+                                                                     "evidence"
+                                                                 ],
+                                                        "summary":  "Create Evidence",
+                                                        "description":  "Create an evidence record, optionally linked to an investigation.",
+                                                        "operationId":  "create_evidence_api_v1_evidence_post",
+                                                        "requestBody":  {
+                                                                            "required":  true,
+                                                                            "content":  {
+                                                                                            "application/json":  {
+                                                                                                                     "schema":  {
+                                                                                                                                    "$ref":  "#/components/schemas/EvidenceCreate"
+                                                                                                                                }
+                                                                                                                 }
+                                                                                        }
+                                                                        },
+                                                        "responses":  {
+                                                                          "201":  {
+                                                                                      "description":  "Successful Response",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/EvidenceRead"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  },
+                                                                          "422":  {
+                                                                                      "description":  "Validation Error",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  }
+                                                                      }
+                                                    },
+                                           "get":  {
+                                                       "tags":  [
+                                                                    "evidence"
+                                                                ],
+                                                       "summary":  "List Evidence",
+                                                       "description":  "List evidence, optionally filtered by investigation.",
+                                                       "operationId":  "list_evidence_api_v1_evidence_get",
+                                                       "parameters":  [
+                                                                          {
+                                                                              "name":  "investigation_id",
+                                                                              "in":  "query",
+                                                                              "required":  false,
+                                                                              "schema":  {
+                                                                                             "anyOf":  [
+                                                                                                           {
+                                                                                                               "type":  "integer",
+                                                                                                               "exclusiveMinimum":  0
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "type":  "null"
+                                                                                                           }
+                                                                                                       ],
+                                                                                             "title":  "Investigation Id"
+                                                                                         }
+                                                                          },
+                                                                          {
+                                                                              "name":  "limit",
+                                                                              "in":  "query",
+                                                                              "required":  false,
+                                                                              "schema":  {
+                                                                                             "type":  "integer",
+                                                                                             "maximum":  100,
+                                                                                             "minimum":  1,
+                                                                                             "default":  50,
+                                                                                             "title":  "Limit"
+                                                                                         }
+                                                                          },
+                                                                          {
+                                                                              "name":  "offset",
+                                                                              "in":  "query",
+                                                                              "required":  false,
+                                                                              "schema":  {
+                                                                                             "type":  "integer",
+                                                                                             "minimum":  0,
+                                                                                             "default":  0,
+                                                                                             "title":  "Offset"
+                                                                                         }
+                                                                          }
+                                                                      ],
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "Successful Response",
+                                                                                     "content":  {
+                                                                                                     "application/json":  {
+                                                                                                                              "schema":  {
+                                                                                                                                             "type":  "array",
+                                                                                                                                             "items":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/EvidenceRead"
+                                                                                                                                                       },
+                                                                                                                                             "title":  "Response List Evidence Api V1 Evidence Get"
+                                                                                                                                         }
+                                                                                                                          }
+                                                                                                 }
+                                                                                 },
+                                                                         "422":  {
+                                                                                     "description":  "Validation Error",
+                                                                                     "content":  {
+                                                                                                     "application/json":  {
+                                                                                                                              "schema":  {
+                                                                                                                                             "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                         }
+                                                                                                                          }
+                                                                                                 }
+                                                                                 }
+                                                                     }
+                                                   }
+                                       },
+                  "/api/v1/evidence/{evidence_id}":  {
+                                                         "get":  {
+                                                                     "tags":  [
+                                                                                  "evidence"
+                                                                              ],
+                                                                     "summary":  "Get Evidence",
+                                                                     "description":  "Retrieve a single evidence record.",
+                                                                     "operationId":  "get_evidence_api_v1_evidence__evidence_id__get",
+                                                                     "parameters":  [
+                                                                                        {
+                                                                                            "name":  "evidence_id",
+                                                                                            "in":  "path",
+                                                                                            "required":  true,
+                                                                                            "schema":  {
+                                                                                                           "type":  "integer",
+                                                                                                           "title":  "Evidence Id"
+                                                                                                       }
+                                                                                        }
+                                                                                    ],
+                                                                     "responses":  {
+                                                                                       "200":  {
+                                                                                                   "description":  "Successful Response",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/EvidenceRead"
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               },
+                                                                                       "422":  {
+                                                                                                   "description":  "Validation Error",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               }
+                                                                                   }
+                                                                 }
+                                                     },
+                  "/api/v1/investigations":  {
+                                                 "post":  {
+                                                              "tags":  [
+                                                                           "investigations"
+                                                                       ],
+                                                              "summary":  "Create Investigation",
+                                                              "description":  "Create a new investigation.",
+                                                              "operationId":  "create_investigation_api_v1_investigations_post",
+                                                              "requestBody":  {
+                                                                                  "required":  true,
+                                                                                  "content":  {
+                                                                                                  "application/json":  {
+                                                                                                                           "schema":  {
+                                                                                                                                          "$ref":  "#/components/schemas/InvestigationCreate"
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                              }
+                                                                              },
+                                                              "responses":  {
+                                                                                "201":  {
+                                                                                            "description":  "Successful Response",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/InvestigationRead"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        },
+                                                                                "422":  {
+                                                                                            "description":  "Validation Error",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        }
+                                                                            }
+                                                          },
+                                                 "get":  {
+                                                             "tags":  [
+                                                                          "investigations"
+                                                                      ],
+                                                             "summary":  "List Investigations",
+                                                             "description":  "List investigations, newest first.",
+                                                             "operationId":  "list_investigations_api_v1_investigations_get",
+                                                             "parameters":  [
+                                                                                {
+                                                                                    "name":  "limit",
+                                                                                    "in":  "query",
+                                                                                    "required":  false,
+                                                                                    "schema":  {
+                                                                                                   "type":  "integer",
+                                                                                                   "maximum":  100,
+                                                                                                   "minimum":  1,
+                                                                                                   "default":  50,
+                                                                                                   "title":  "Limit"
+                                                                                               }
+                                                                                },
+                                                                                {
+                                                                                    "name":  "offset",
+                                                                                    "in":  "query",
+                                                                                    "required":  false,
+                                                                                    "schema":  {
+                                                                                                   "type":  "integer",
+                                                                                                   "minimum":  0,
+                                                                                                   "default":  0,
+                                                                                                   "title":  "Offset"
+                                                                                               }
+                                                                                }
+                                                                            ],
+                                                             "responses":  {
+                                                                               "200":  {
+                                                                                           "description":  "Successful Response",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "type":  "array",
+                                                                                                                                                   "items":  {
+                                                                                                                                                                 "$ref":  "#/components/schemas/InvestigationRead"
+                                                                                                                                                             },
+                                                                                                                                                   "title":  "Response List Investigations Api V1 Investigations Get"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       },
+                                                                               "422":  {
+                                                                                           "description":  "Validation Error",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       }
+                                                                           }
+                                                         }
+                                             },
+                  "/api/v1/investigations/{investigation_id}":  {
+                                                                    "get":  {
+                                                                                "tags":  [
+                                                                                             "investigations"
+                                                                                         ],
+                                                                                "summary":  "Get Investigation",
+                                                                                "description":  "Retrieve an investigation and its associated evidence.",
+                                                                                "operationId":  "get_investigation_api_v1_investigations__investigation_id__get",
+                                                                                "parameters":  [
+                                                                                                   {
+                                                                                                       "name":  "investigation_id",
+                                                                                                       "in":  "path",
+                                                                                                       "required":  true,
+                                                                                                       "schema":  {
+                                                                                                                      "type":  "integer",
+                                                                                                                      "title":  "Investigation Id"
+                                                                                                                  }
+                                                                                                   }
+                                                                                               ],
+                                                                                "responses":  {
+                                                                                                  "200":  {
+                                                                                                              "description":  "Successful Response",
+                                                                                                              "content":  {
+                                                                                                                              "application/json":  {
+                                                                                                                                                       "schema":  {
+                                                                                                                                                                      "$ref":  "#/components/schemas/InvestigationDetail"
+                                                                                                                                                                  }
+                                                                                                                                                   }
+                                                                                                                          }
+                                                                                                          },
+                                                                                                  "422":  {
+                                                                                                              "description":  "Validation Error",
+                                                                                                              "content":  {
+                                                                                                                              "application/json":  {
+                                                                                                                                                       "schema":  {
+                                                                                                                                                                      "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                  }
+                                                                                                                                                   }
+                                                                                                                          }
+                                                                                                          }
+                                                                                              }
+                                                                            }
+                                                                },
+                  "/api/v1/investigations/{investigation_id}/status":  {
+                                                                           "patch":  {
+                                                                                         "tags":  [
+                                                                                                      "investigations"
+                                                                                                  ],
+                                                                                         "summary":  "Update Investigation Status",
+                                                                                         "operationId":  "update_investigation_status_api_v1_investigations__investigation_id__status_patch",
+                                                                                         "parameters":  [
+                                                                                                            {
+                                                                                                                "name":  "investigation_id",
+                                                                                                                "in":  "path",
+                                                                                                                "required":  true,
+                                                                                                                "schema":  {
+                                                                                                                               "type":  "integer",
+                                                                                                                               "title":  "Investigation Id"
+                                                                                                                           }
+                                                                                                            }
+                                                                                                        ],
+                                                                                         "requestBody":  {
+                                                                                                             "required":  true,
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+                                                                                                                                                                     "$ref":  "#/components/schemas/InvestigationStatusUpdate"
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         },
+                                                                                         "responses":  {
+                                                                                                           "200":  {
+                                                                                                                       "description":  "Successful Response",
+                                                                                                                       "content":  {
+                                                                                                                                       "application/json":  {
+                                                                                                                                                                "schema":  {
+                                                                                                                                                                               "$ref":  "#/components/schemas/InvestigationRead"
+                                                                                                                                                                           }
+                                                                                                                                                            }
+                                                                                                                                   }
+                                                                                                                   },
+                                                                                                           "422":  {
+                                                                                                                       "description":  "Validation Error",
+                                                                                                                       "content":  {
+                                                                                                                                       "application/json":  {
+                                                                                                                                                                "schema":  {
+                                                                                                                                                                               "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                           }
+                                                                                                                                                            }
+                                                                                                                                   }
+                                                                                                                   }
+                                                                                                       }
+                                                                                     }
+                                                                       },
+                  "/api/v1/investigations/{investigation_id}/summary":  {
+                                                                            "get":  {
+                                                                                        "tags":  [
+                                                                                                     "investigations"
+                                                                                                 ],
+                                                                                        "summary":  "Get Investigation Summary",
+                                                                                        "operationId":  "get_investigation_summary_api_v1_investigations__investigation_id__summary_get",
+                                                                                        "parameters":  [
+                                                                                                           {
+                                                                                                               "name":  "investigation_id",
+                                                                                                               "in":  "path",
+                                                                                                               "required":  true,
+                                                                                                               "schema":  {
+                                                                                                                              "type":  "integer",
+                                                                                                                              "title":  "Investigation Id"
+                                                                                                                          }
+                                                                                                           }
+                                                                                                       ],
+                                                                                        "responses":  {
+                                                                                                          "200":  {
+                                                                                                                      "description":  "Successful Response",
+                                                                                                                      "content":  {
+                                                                                                                                      "application/json":  {
+                                                                                                                                                               "schema":  {
+                                                                                                                                                                              "$ref":  "#/components/schemas/InvestigationSummary"
+                                                                                                                                                                          }
+                                                                                                                                                           }
+                                                                                                                                  }
+                                                                                                                  },
+                                                                                                          "422":  {
+                                                                                                                      "description":  "Validation Error",
+                                                                                                                      "content":  {
+                                                                                                                                      "application/json":  {
+                                                                                                                                                               "schema":  {
+                                                                                                                                                                              "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                          }
+                                                                                                                                                           }
+                                                                                                                                  }
+                                                                                                                  }
+                                                                                                      }
+                                                                                    }
+                                                                        },
+                  "/api/v1/investigations/{investigation_id}/findings":  {
+                                                                             "get":  {
+                                                                                         "tags":  [
+                                                                                                      "investigations"
+                                                                                                  ],
+                                                                                         "summary":  "Get Investigation Findings",
+                                                                                         "operationId":  "get_investigation_findings_api_v1_investigations__investigation_id__findings_get",
+                                                                                         "parameters":  [
+                                                                                                            {
+                                                                                                                "name":  "investigation_id",
+                                                                                                                "in":  "path",
+                                                                                                                "required":  true,
+                                                                                                                "schema":  {
+                                                                                                                               "type":  "integer",
+                                                                                                                               "title":  "Investigation Id"
+                                                                                                                           }
+                                                                                                            }
+                                                                                                        ],
+                                                                                         "responses":  {
+                                                                                                           "200":  {
+                                                                                                                       "description":  "Successful Response",
+                                                                                                                       "content":  {
+                                                                                                                                       "application/json":  {
+                                                                                                                                                                "schema":  {
+                                                                                                                                                                               "$ref":  "#/components/schemas/InvestigationFindings"
+                                                                                                                                                                           }
+                                                                                                                                                            }
+                                                                                                                                   }
+                                                                                                                   },
+                                                                                                           "422":  {
+                                                                                                                       "description":  "Validation Error",
+                                                                                                                       "content":  {
+                                                                                                                                       "application/json":  {
+                                                                                                                                                                "schema":  {
+                                                                                                                                                                               "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                           }
+                                                                                                                                                            }
+                                                                                                                                   }
+                                                                                                                   }
+                                                                                                       }
+                                                                                     }
+                                                                         },
+                  "/":  {
+                            "get":  {
+                                        "summary":  "Root",
+                                        "operationId":  "root__get",
+                                        "responses":  {
+                                                          "200":  {
+                                                                      "description":  "Successful Response",
+                                                                      "content":  {
+                                                                                      "application/json":  {
+                                                                                                               "schema":  {
+                                                                                                                              "additionalProperties":  {
+                                                                                                                                                           "type":  "string"
+                                                                                                                                                       },
+                                                                                                                              "type":  "object",
+                                                                                                                              "title":  "Response Root  Get"
+                                                                                                                          }
+                                                                                                           }
+                                                                                  }
+                                                                  }
+                                                      }
+                                    }
+                        }
+              },
+    "components":  {
+                       "schemas":  {
+                                       "EventCreate":  {
+                                                           "properties":  {
+                                                                              "event_name":  {
+                                                                                                 "type":  "string",
+                                                                                                 "maxLength":  150,
+                                                                                                 "minLength":  1,
+                                                                                                 "title":  "Event Name"
+                                                                                             },
+                                                                              "user_id":  {
+                                                                                              "type":  "string",
+                                                                                              "maxLength":  150,
+                                                                                              "minLength":  1,
+                                                                                              "title":  "User Id"
+                                                                                          },
+                                                                              "release_id":  {
+                                                                                                 "type":  "integer",
+                                                                                                 "exclusiveMinimum":  0.0,
+                                                                                                 "title":  "Release Id"
+                                                                                             },
+                                                                              "occurred_at":  {
+                                                                                                  "anyOf":  [
+                                                                                                                {
+                                                                                                                    "type":  "string",
+                                                                                                                    "format":  "date-time"
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "type":  "null"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                  "title":  "Occurred At"
+                                                                                              },
+                                                                              "duration_ms":  {
+                                                                                                  "anyOf":  [
+                                                                                                                {
+                                                                                                                    "type":  "number",
+                                                                                                                    "minimum":  0.0
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "type":  "null"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                  "title":  "Duration Ms"
+                                                                                              },
+                                                                              "is_error":  {
+                                                                                               "type":  "boolean",
+                                                                                               "title":  "Is Error",
+                                                                                               "default":  false
+                                                                                           },
+                                                                              "properties":  {
+                                                                                                 "additionalProperties":  true,
+                                                                                                 "type":  "object",
+                                                                                                 "title":  "Properties"
+                                                                                             }
+                                                                          },
+                                                           "type":  "object",
+                                                           "required":  [
+                                                                            "event_name",
+                                                                            "user_id",
+                                                                            "release_id"
+                                                                        ],
+                                                           "title":  "EventCreate"
+                                                       },
+                                       "EventRead":  {
+                                                         "properties":  {
+                                                                            "id":  {
+                                                                                       "type":  "integer",
+                                                                                       "title":  "Id"
+                                                                                   },
+                                                                            "event_name":  {
+                                                                                               "type":  "string",
+                                                                                               "title":  "Event Name"
+                                                                                           },
+                                                                            "user_id":  {
+                                                                                            "type":  "string",
+                                                                                            "title":  "User Id"
+                                                                                        },
+                                                                            "release_id":  {
+                                                                                               "type":  "integer",
+                                                                                               "title":  "Release Id"
+                                                                                           },
+                                                                            "occurred_at":  {
+                                                                                                "type":  "string",
+                                                                                                "format":  "date-time",
+                                                                                                "title":  "Occurred At"
+                                                                                            },
+                                                                            "duration_ms":  {
+                                                                                                "anyOf":  [
+                                                                                                              {
+                                                                                                                  "type":  "number"
+                                                                                                              },
+                                                                                                              {
+                                                                                                                  "type":  "null"
+                                                                                                              }
+                                                                                                          ],
+                                                                                                "title":  "Duration Ms"
+                                                                                            },
+                                                                            "is_error":  {
+                                                                                             "type":  "boolean",
+                                                                                             "title":  "Is Error"
+                                                                                         },
+                                                                            "properties":  {
+                                                                                               "additionalProperties":  true,
+                                                                                               "type":  "object",
+                                                                                               "title":  "Properties"
+                                                                                           }
+                                                                        },
+                                                         "type":  "object",
+                                                         "required":  [
+                                                                          "id",
+                                                                          "event_name",
+                                                                          "user_id",
+                                                                          "release_id",
+                                                                          "occurred_at",
+                                                                          "duration_ms",
+                                                                          "is_error",
+                                                                          "properties"
+                                                                      ],
+                                                         "title":  "EventRead"
+                                                     },
+                                       "EvidenceCreate":  {
+                                                              "properties":  {
+                                                                                 "investigation_id":  {
+                                                                                                          "anyOf":  [
+                                                                                                                        {
+                                                                                                                            "type":  "integer",
+                                                                                                                            "exclusiveMinimum":  0.0
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "type":  "null"
+                                                                                                                        }
+                                                                                                                    ],
+                                                                                                          "title":  "Investigation Id"
+                                                                                                      },
+                                                                                 "evidence_type":  {
+                                                                                                       "type":  "string",
+                                                                                                       "enum":  [
+                                                                                                                    "release_metrics",
+                                                                                                                    "regression_assessment",
+                                                                                                                    "event_sample"
+                                                                                                                ],
+                                                                                                       "title":  "Evidence Type"
+                                                                                                   },
+                                                                                 "title":  {
+                                                                                               "type":  "string",
+                                                                                               "maxLength":  200,
+                                                                                               "minLength":  1,
+                                                                                               "title":  "Title"
+                                                                                           },
+                                                                                 "description":  {
+                                                                                                     "type":  "string",
+                                                                                                     "maxLength":  2000,
+                                                                                                     "minLength":  1,
+                                                                                                     "title":  "Description"
+                                                                                                 },
+                                                                                 "source":  {
+                                                                                                "type":  "string",
+                                                                                                "maxLength":  200,
+                                                                                                "minLength":  1,
+                                                                                                "title":  "Source"
+                                                                                            },
+                                                                                 "data":  {
+                                                                                              "additionalProperties":  true,
+                                                                                              "type":  "object",
+                                                                                              "title":  "Data"
+                                                                                          }
+                                                                             },
+                                                              "type":  "object",
+                                                              "required":  [
+                                                                               "evidence_type",
+                                                                               "title",
+                                                                               "description",
+                                                                               "source"
+                                                                           ],
+                                                              "title":  "EvidenceCreate"
+                                                          },
+                                       "EvidenceRead":  {
+                                                            "properties":  {
+                                                                               "id":  {
+                                                                                          "type":  "integer",
+                                                                                          "title":  "Id"
+                                                                                      },
+                                                                               "investigation_id":  {
+                                                                                                        "anyOf":  [
+                                                                                                                      {
+                                                                                                                          "type":  "integer"
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "type":  "null"
+                                                                                                                      }
+                                                                                                                  ],
+                                                                                                        "title":  "Investigation Id"
+                                                                                                    },
+                                                                               "evidence_type":  {
+                                                                                                     "type":  "string",
+                                                                                                     "title":  "Evidence Type"
+                                                                                                 },
+                                                                               "title":  {
+                                                                                             "type":  "string",
+                                                                                             "title":  "Title"
+                                                                                         },
+                                                                               "description":  {
+                                                                                                   "type":  "string",
+                                                                                                   "title":  "Description"
+                                                                                               },
+                                                                               "source":  {
+                                                                                              "type":  "string",
+                                                                                              "title":  "Source"
+                                                                                          },
+                                                                               "data":  {
+                                                                                            "additionalProperties":  true,
+                                                                                            "type":  "object",
+                                                                                            "title":  "Data"
+                                                                                        },
+                                                                               "created_at":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "date-time",
+                                                                                                  "title":  "Created At"
+                                                                                              }
+                                                                           },
+                                                            "type":  "object",
+                                                            "required":  [
+                                                                             "id",
+                                                                             "investigation_id",
+                                                                             "evidence_type",
+                                                                             "title",
+                                                                             "description",
+                                                                             "source",
+                                                                             "data",
+                                                                             "created_at"
+                                                                         ],
+                                                            "title":  "EvidenceRead"
+                                                        },
+                                       "EvidenceReference":  {
+                                                                 "properties":  {
+                                                                                    "evidence_id":  {
+                                                                                                        "type":  "integer",
+                                                                                                        "title":  "Evidence Id"
+                                                                                                    },
+                                                                                    "title":  {
+                                                                                                  "type":  "string",
+                                                                                                  "title":  "Title"
+                                                                                              },
+                                                                                    "evidence_type":  {
+                                                                                                          "type":  "string",
+                                                                                                          "title":  "Evidence Type"
+                                                                                                      },
+                                                                                    "source":  {
+                                                                                                   "type":  "string",
+                                                                                                   "title":  "Source"
+                                                                                               }
+                                                                                },
+                                                                 "type":  "object",
+                                                                 "required":  [
+                                                                                  "evidence_id",
+                                                                                  "title",
+                                                                                  "evidence_type",
+                                                                                  "source"
+                                                                              ],
+                                                                 "title":  "EvidenceReference"
+                                                             },
+                                       "HTTPValidationError":  {
+                                                                   "properties":  {
+                                                                                      "detail":  {
+                                                                                                     "items":  {
+                                                                                                                   "$ref":  "#/components/schemas/ValidationError"
+                                                                                                               },
+                                                                                                     "type":  "array",
+                                                                                                     "title":  "Detail"
+                                                                                                 }
+                                                                                  },
+                                                                   "type":  "object",
+                                                                   "title":  "HTTPValidationError"
+                                                               },
+                                       "InvestigationCreate":  {
+                                                                   "properties":  {
+                                                                                      "title":  {
+                                                                                                    "type":  "string",
+                                                                                                    "maxLength":  200,
+                                                                                                    "minLength":  1,
+                                                                                                    "title":  "Title"
+                                                                                                },
+                                                                                      "question":  {
+                                                                                                       "type":  "string",
+                                                                                                       "maxLength":  2000,
+                                                                                                       "minLength":  1,
+                                                                                                       "title":  "Question"
+                                                                                                   }
+                                                                                  },
+                                                                   "type":  "object",
+                                                                   "required":  [
+                                                                                    "title",
+                                                                                    "question"
+                                                                                ],
+                                                                   "title":  "InvestigationCreate"
+                                                               },
+                                       "InvestigationDetail":  {
+                                                                   "properties":  {
+                                                                                      "id":  {
+                                                                                                 "type":  "integer",
+                                                                                                 "title":  "Id"
+                                                                                             },
+                                                                                      "title":  {
+                                                                                                    "type":  "string",
+                                                                                                    "title":  "Title"
+                                                                                                },
+                                                                                      "status":  {
+                                                                                                     "type":  "string",
+                                                                                                     "enum":  [
+                                                                                                                  "pending",
+                                                                                                                  "in_progress",
+                                                                                                                  "completed",
+                                                                                                                  "failed"
+                                                                                                              ],
+                                                                                                     "title":  "Status"
+                                                                                                 },
+                                                                                      "question":  {
+                                                                                                       "type":  "string",
+                                                                                                       "title":  "Question"
+                                                                                                   },
+                                                                                      "created_at":  {
+                                                                                                         "type":  "string",
+                                                                                                         "format":  "date-time",
+                                                                                                         "title":  "Created At"
+                                                                                                     },
+                                                                                      "evidence":  {
+                                                                                                       "items":  {
+                                                                                                                     "$ref":  "#/components/schemas/EvidenceRead"
+                                                                                                                 },
+                                                                                                       "type":  "array",
+                                                                                                       "title":  "Evidence"
+                                                                                                   }
+                                                                                  },
+                                                                   "type":  "object",
+                                                                   "required":  [
+                                                                                    "id",
+                                                                                    "title",
+                                                                                    "status",
+                                                                                    "question",
+                                                                                    "created_at"
+                                                                                ],
+                                                                   "title":  "InvestigationDetail"
+                                                               },
+                                       "InvestigationFindings":  {
+                                                                     "properties":  {
+                                                                                        "investigation_id":  {
+                                                                                                                 "type":  "integer",
+                                                                                                                 "title":  "Investigation Id"
+                                                                                                             },
+                                                                                        "investigation_title":  {
+                                                                                                                    "type":  "string",
+                                                                                                                    "title":  "Investigation Title"
+                                                                                                                },
+                                                                                        "investigation_status":  {
+                                                                                                                     "type":  "string",
+                                                                                                                     "title":  "Investigation Status"
+                                                                                                                 },
+                                                                                        "question":  {
+                                                                                                         "type":  "string",
+                                                                                                         "title":  "Question"
+                                                                                                     },
+                                                                                        "conclusion":  {
+                                                                                                           "type":  "string",
+                                                                                                           "enum":  [
+                                                                                                                        "insufficient_evidence",
+                                                                                                                        "regression_signal_detected",
+                                                                                                                        "no_regression_signal_detected",
+                                                                                                                        "inconclusive"
+                                                                                                                    ],
+                                                                                                           "title":  "Conclusion"
+                                                                                                       },
+                                                                                        "evidence_quality":  {
+                                                                                                                 "type":  "string",
+                                                                                                                 "enum":  [
+                                                                                                                              "none",
+                                                                                                                              "unusable",
+                                                                                                                              "partial",
+                                                                                                                              "conflicting",
+                                                                                                                              "structured"
+                                                                                                                          ],
+                                                                                                                 "title":  "Evidence Quality"
+                                                                                                             },
+                                                                                        "explanation":  {
+                                                                                                            "type":  "string",
+                                                                                                            "title":  "Explanation"
+                                                                                                        },
+                                                                                        "evidence_count":  {
+                                                                                                               "type":  "integer",
+                                                                                                               "title":  "Evidence Count"
+                                                                                                           },
+                                                                                        "valid_assessment_count":  {
+                                                                                                                       "type":  "integer",
+                                                                                                                       "title":  "Valid Assessment Count"
+                                                                                                                   },
+                                                                                        "evidence_references":  {
+                                                                                                                    "items":  {
+                                                                                                                                  "$ref":  "#/components/schemas/EvidenceReference"
+                                                                                                                              },
+                                                                                                                    "type":  "array",
+                                                                                                                    "title":  "Evidence References"
+                                                                                                                },
+                                                                                        "limitations":  {
+                                                                                                            "items":  {
+                                                                                                                          "type":  "string"
+                                                                                                                      },
+                                                                                                            "type":  "array",
+                                                                                                            "title":  "Limitations"
+                                                                                                        }
+                                                                                    },
+                                                                     "type":  "object",
+                                                                     "required":  [
+                                                                                      "investigation_id",
+                                                                                      "investigation_title",
+                                                                                      "investigation_status",
+                                                                                      "question",
+                                                                                      "conclusion",
+                                                                                      "evidence_quality",
+                                                                                      "explanation",
+                                                                                      "evidence_count",
+                                                                                      "valid_assessment_count",
+                                                                                      "evidence_references"
+                                                                                  ],
+                                                                     "title":  "InvestigationFindings"
+                                                                 },
+                                       "InvestigationRead":  {
+                                                                 "properties":  {
+                                                                                    "id":  {
+                                                                                               "type":  "integer",
+                                                                                               "title":  "Id"
+                                                                                           },
+                                                                                    "title":  {
+                                                                                                  "type":  "string",
+                                                                                                  "title":  "Title"
+                                                                                              },
+                                                                                    "status":  {
+                                                                                                   "type":  "string",
+                                                                                                   "enum":  [
+                                                                                                                "pending",
+                                                                                                                "in_progress",
+                                                                                                                "completed",
+                                                                                                                "failed"
+                                                                                                            ],
+                                                                                                   "title":  "Status"
+                                                                                               },
+                                                                                    "question":  {
+                                                                                                     "type":  "string",
+                                                                                                     "title":  "Question"
+                                                                                                 },
+                                                                                    "created_at":  {
+                                                                                                       "type":  "string",
+                                                                                                       "format":  "date-time",
+                                                                                                       "title":  "Created At"
+                                                                                                   }
+                                                                                },
+                                                                 "type":  "object",
+                                                                 "required":  [
+                                                                                  "id",
+                                                                                  "title",
+                                                                                  "status",
+                                                                                  "question",
+                                                                                  "created_at"
+                                                                              ],
+                                                                 "title":  "InvestigationRead"
+                                                             },
+                                       "InvestigationStatusUpdate":  {
+                                                                         "properties":  {
+                                                                                            "status":  {
+                                                                                                           "type":  "string",
+                                                                                                           "enum":  [
+                                                                                                                        "in_progress",
+                                                                                                                        "completed",
+                                                                                                                        "failed"
+                                                                                                                    ],
+                                                                                                           "title":  "Status"
+                                                                                                       }
+                                                                                        },
+                                                                         "type":  "object",
+                                                                         "required":  [
+                                                                                          "status"
+                                                                                      ],
+                                                                         "title":  "InvestigationStatusUpdate"
+                                                                     },
+                                       "InvestigationSummary":  {
+                                                                    "properties":  {
+                                                                                       "investigation_id":  {
+                                                                                                                "type":  "integer",
+                                                                                                                "title":  "Investigation Id"
+                                                                                                            },
+                                                                                       "title":  {
+                                                                                                     "type":  "string",
+                                                                                                     "title":  "Title"
+                                                                                                 },
+                                                                                       "question":  {
+                                                                                                        "type":  "string",
+                                                                                                        "title":  "Question"
+                                                                                                    },
+                                                                                       "status":  {
+                                                                                                      "type":  "string",
+                                                                                                      "title":  "Status"
+                                                                                                  },
+                                                                                       "created_at":  {
+                                                                                                          "type":  "string",
+                                                                                                          "format":  "date-time",
+                                                                                                          "title":  "Created At"
+                                                                                                      },
+                                                                                       "evidence_count":  {
+                                                                                                              "type":  "integer",
+                                                                                                              "title":  "Evidence Count"
+                                                                                                          },
+                                                                                       "evidence":  {
+                                                                                                        "items":  {
+                                                                                                                      "$ref":  "#/components/schemas/EvidenceRead"
+                                                                                                                  },
+                                                                                                        "type":  "array",
+                                                                                                        "title":  "Evidence"
+                                                                                                    },
+                                                                                       "summary":  {
+                                                                                                       "type":  "string",
+                                                                                                       "title":  "Summary"
+                                                                                                   },
+                                                                                       "limitations":  {
+                                                                                                           "items":  {
+                                                                                                                         "type":  "string"
+                                                                                                                     },
+                                                                                                           "type":  "array",
+                                                                                                           "title":  "Limitations"
+                                                                                                       }
+                                                                                   },
+                                                                    "type":  "object",
+                                                                    "required":  [
+                                                                                     "investigation_id",
+                                                                                     "title",
+                                                                                     "question",
+                                                                                     "status",
+                                                                                     "created_at",
+                                                                                     "evidence_count",
+                                                                                     "evidence",
+                                                                                     "summary",
+                                                                                     "limitations"
+                                                                                 ],
+                                                                    "title":  "InvestigationSummary"
+                                                                },
+                                       "MetricChange":  {
+                                                            "properties":  {
+                                                                               "baseline":  {
+                                                                                                "$ref":  "#/components/schemas/ReleaseMetrics"
+                                                                                            },
+                                                                               "candidate":  {
+                                                                                                 "$ref":  "#/components/schemas/ReleaseMetrics"
+                                                                                             },
+                                                                               "conversion_change_percentage_points":  {
+                                                                                                                           "type":  "number",
+                                                                                                                           "title":  "Conversion Change Percentage Points"
+                                                                                                                       },
+                                                                               "error_rate_change_percentage_points":  {
+                                                                                                                           "type":  "number",
+                                                                                                                           "title":  "Error Rate Change Percentage Points"
+                                                                                                                       },
+                                                                               "average_duration_change_ms":  {
+                                                                                                                  "anyOf":  [
+                                                                                                                                {
+                                                                                                                                    "type":  "number"
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "type":  "null"
+                                                                                                                                }
+                                                                                                                            ],
+                                                                                                                  "title":  "Average Duration Change Ms"
+                                                                                                              },
+                                                                               "interpretation":  {
+                                                                                                      "items":  {
+                                                                                                                    "type":  "string"
+                                                                                                                },
+                                                                                                      "type":  "array",
+                                                                                                      "title":  "Interpretation"
+                                                                                                  },
+                                                                               "regression_assessment":  {
+                                                                                                             "anyOf":  [
+                                                                                                                           {
+                                                                                                                               "$ref":  "#/components/schemas/RegressionAssessment"
+                                                                                                                           },
+                                                                                                                           {
+                                                                                                                               "type":  "null"
+                                                                                                                           }
+                                                                                                                       ]
+                                                                                                         }
+                                                                           },
+                                                            "type":  "object",
+                                                            "required":  [
+                                                                             "baseline",
+                                                                             "candidate",
+                                                                             "conversion_change_percentage_points",
+                                                                             "error_rate_change_percentage_points",
+                                                                             "average_duration_change_ms",
+                                                                             "interpretation"
+                                                                         ],
+                                                            "title":  "MetricChange"
+                                                        },
+                                       "RegressionAssessment":  {
+                                                                    "properties":  {
+                                                                                       "status":  {
+                                                                                                      "type":  "string",
+                                                                                                      "enum":  [
+                                                                                                                   "insufficient_data",
+                                                                                                                   "no_regression_detected",
+                                                                                                                   "regression_detected",
+                                                                                                                   "inconclusive"
+                                                                                                               ],
+                                                                                                      "title":  "Status"
+                                                                                                  },
+                                                                                       "reason":  {
+                                                                                                      "anyOf":  [
+                                                                                                                    {
+                                                                                                                        "type":  "string"
+                                                                                                                    },
+                                                                                                                    {
+                                                                                                                        "type":  "null"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                      "title":  "Reason"
+                                                                                                  },
+                                                                                       "baseline_error_rate":  {
+                                                                                                                   "anyOf":  [
+                                                                                                                                 {
+                                                                                                                                     "type":  "number"
+                                                                                                                                 },
+                                                                                                                                 {
+                                                                                                                                     "type":  "null"
+                                                                                                                                 }
+                                                                                                                             ],
+                                                                                                                   "title":  "Baseline Error Rate"
+                                                                                                               },
+                                                                                       "candidate_error_rate":  {
+                                                                                                                    "anyOf":  [
+                                                                                                                                  {
+                                                                                                                                      "type":  "number"
+                                                                                                                                  },
+                                                                                                                                  {
+                                                                                                                                      "type":  "null"
+                                                                                                                                  }
+                                                                                                                              ],
+                                                                                                                    "title":  "Candidate Error Rate"
+                                                                                                                },
+                                                                                       "change_percentage_points":  {
+                                                                                                                        "anyOf":  [
+                                                                                                                                      {
+                                                                                                                                          "type":  "number"
+                                                                                                                                      },
+                                                                                                                                      {
+                                                                                                                                          "type":  "null"
+                                                                                                                                      }
+                                                                                                                                  ],
+                                                                                                                        "title":  "Change Percentage Points"
+                                                                                                                    },
+                                                                                       "baseline_ci_95":  {
+                                                                                                              "anyOf":  [
+                                                                                                                            {
+                                                                                                                                "items":  {
+                                                                                                                                              "type":  "number"
+                                                                                                                                          },
+                                                                                                                                "type":  "array"
+                                                                                                                            },
+                                                                                                                            {
+                                                                                                                                "type":  "null"
+                                                                                                                            }
+                                                                                                                        ],
+                                                                                                              "title":  "Baseline Ci 95"
+                                                                                                          },
+                                                                                       "candidate_ci_95":  {
+                                                                                                               "anyOf":  [
+                                                                                                                             {
+                                                                                                                                 "items":  {
+                                                                                                                                               "type":  "number"
+                                                                                                                                           },
+                                                                                                                                 "type":  "array"
+                                                                                                                             },
+                                                                                                                             {
+                                                                                                                                 "type":  "null"
+                                                                                                                             }
+                                                                                                                         ],
+                                                                                                               "title":  "Candidate Ci 95"
+                                                                                                           },
+                                                                                       "p_value":  {
+                                                                                                       "anyOf":  [
+                                                                                                                     {
+                                                                                                                         "type":  "number"
+                                                                                                                     },
+                                                                                                                     {
+                                                                                                                         "type":  "null"
+                                                                                                                     }
+                                                                                                                 ],
+                                                                                                       "title":  "P Value"
+                                                                                                   },
+                                                                                       "alpha":  {
+                                                                                                     "anyOf":  [
+                                                                                                                   {
+                                                                                                                       "type":  "number",
+                                                                                                                       "exclusiveMaximum":  1.0,
+                                                                                                                       "exclusiveMinimum":  0.0
+                                                                                                                   },
+                                                                                                                   {
+                                                                                                                       "type":  "null"
+                                                                                                                   }
+                                                                                                               ],
+                                                                                                     "title":  "Alpha"
+                                                                                                 },
+                                                                                       "minimum_increase_percentage_points":  {
+                                                                                                                                  "anyOf":  [
+                                                                                                                                                {
+                                                                                                                                                    "type":  "number"
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "type":  "null"
+                                                                                                                                                }
+                                                                                                                                            ],
+                                                                                                                                  "title":  "Minimum Increase Percentage Points"
+                                                                                                                              }
+                                                                                   },
+                                                                    "type":  "object",
+                                                                    "required":  [
+                                                                                     "status"
+                                                                                 ],
+                                                                    "title":  "RegressionAssessment"
+                                                                },
+                                       "ReleaseCreate":  {
+                                                             "properties":  {
+                                                                                "version":  {
+                                                                                                "type":  "string",
+                                                                                                "maxLength":  100,
+                                                                                                "minLength":  1,
+                                                                                                "title":  "Version"
+                                                                                            },
+                                                                                "name":  {
+                                                                                             "type":  "string",
+                                                                                             "maxLength":  200,
+                                                                                             "minLength":  1,
+                                                                                             "title":  "Name"
+                                                                                         }
+                                                                            },
+                                                             "type":  "object",
+                                                             "required":  [
+                                                                              "version",
+                                                                              "name"
+                                                                          ],
+                                                             "title":  "ReleaseCreate"
+                                                         },
+                                       "ReleaseMetrics":  {
+                                                              "properties":  {
+                                                                                 "release_id":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "title":  "Release Id"
+                                                                                                },
+                                                                                 "release_version":  {
+                                                                                                         "type":  "string",
+                                                                                                         "title":  "Release Version"
+                                                                                                     },
+                                                                                 "total_events":  {
+                                                                                                      "type":  "integer",
+                                                                                                      "minimum":  0.0,
+                                                                                                      "title":  "Total Events"
+                                                                                                  },
+                                                                                 "unique_users":  {
+                                                                                                      "type":  "integer",
+                                                                                                      "minimum":  0.0,
+                                                                                                      "title":  "Unique Users"
+                                                                                                  },
+                                                                                 "conversion_rate":  {
+                                                                                                         "type":  "number",
+                                                                                                         "maximum":  100.0,
+                                                                                                         "minimum":  0.0,
+                                                                                                         "title":  "Conversion Rate"
+                                                                                                     },
+                                                                                 "error_rate":  {
+                                                                                                    "type":  "number",
+                                                                                                    "maximum":  100.0,
+                                                                                                    "minimum":  0.0,
+                                                                                                    "title":  "Error Rate"
+                                                                                                },
+                                                                                 "average_duration_ms":  {
+                                                                                                             "anyOf":  [
+                                                                                                                           {
+                                                                                                                               "type":  "number",
+                                                                                                                               "minimum":  0.0
+                                                                                                                           },
+                                                                                                                           {
+                                                                                                                               "type":  "null"
+                                                                                                                           }
+                                                                                                                       ],
+                                                                                                             "title":  "Average Duration Ms"
+                                                                                                         }
+                                                                             },
+                                                              "type":  "object",
+                                                              "required":  [
+                                                                               "release_id",
+                                                                               "release_version",
+                                                                               "total_events",
+                                                                               "unique_users",
+                                                                               "conversion_rate",
+                                                                               "error_rate"
+                                                                           ],
+                                                              "title":  "ReleaseMetrics"
+                                                          },
+                                       "ReleaseRead":  {
+                                                           "properties":  {
+                                                                              "id":  {
+                                                                                         "type":  "integer",
+                                                                                         "title":  "Id"
+                                                                                     },
+                                                                              "version":  {
+                                                                                              "type":  "string",
+                                                                                              "title":  "Version"
+                                                                                          },
+                                                                              "name":  {
+                                                                                           "type":  "string",
+                                                                                           "title":  "Name"
+                                                                                       },
+                                                                              "created_at":  {
+                                                                                                 "type":  "string",
+                                                                                                 "format":  "date-time",
+                                                                                                 "title":  "Created At"
+                                                                                             }
+                                                                          },
+                                                           "type":  "object",
+                                                           "required":  [
+                                                                            "id",
+                                                                            "version",
+                                                                            "name",
+                                                                            "created_at"
+                                                                        ],
+                                                           "title":  "ReleaseRead"
+                                                       },
+                                       "ValidationError":  {
+                                                               "properties":  {
+                                                                                  "loc":  {
+                                                                                              "items":  {
+                                                                                                            "anyOf":  [
+                                                                                                                          {
+                                                                                                                              "type":  "string"
+                                                                                                                          },
+                                                                                                                          {
+                                                                                                                              "type":  "integer"
+                                                                                                                          }
+                                                                                                                      ]
+                                                                                                        },
+                                                                                              "type":  "array",
+                                                                                              "title":  "Location"
+                                                                                          },
+                                                                                  "msg":  {
+                                                                                              "type":  "string",
+                                                                                              "title":  "Message"
+                                                                                          },
+                                                                                  "type":  {
+                                                                                               "type":  "string",
+                                                                                               "title":  "Error Type"
+                                                                                           },
+                                                                                  "input":  {
+                                                                                                "title":  "Input"
+                                                                                            },
+                                                                                  "ctx":  {
+                                                                                              "type":  "object",
+                                                                                              "title":  "Context"
+                                                                                          }
+                                                                              },
+                                                               "type":  "object",
+                                                               "required":  [
+                                                                                "loc",
+                                                                                "msg",
+                                                                                "type"
+                                                                            ],
+                                                               "title":  "ValidationError"
+                                                           }
+                                   }
+                   }
+}

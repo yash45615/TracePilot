@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.venv-*/
+venv-*/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Frontend dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local test and tooling artifacts
+.pyright/
+.hypothesis/
+playwright-report/
+test-results/
